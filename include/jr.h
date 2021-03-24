@@ -43,6 +43,15 @@ typedef union jr_userdata {
 extern jr_userdata_t JR_NONE;
 
 //
+// Memory utilities
+
+uint16_t jr_mem_read_uint16be(uint8_t *ptr);
+uint32_t jr_mem_read_uint32be(uint8_t *ptr);
+
+uint16_t jr_mem_read_uint16le(uint8_t *ptr);
+uint32_t jr_mem_read_uint32le(uint8_t *ptr);
+
+//
 // Ringbuffer (byte-oriented, not threadsafe)
 
 typedef struct jr_ringbuf {
