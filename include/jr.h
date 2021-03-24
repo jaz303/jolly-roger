@@ -7,37 +7,37 @@
 // Macros
 
 #define JR_CRIT_ENTER() \
-	uint32_t jr_prev_primask = __get_PRIMASK(); \
-	__disable_irq(); \
-	__DMB()
+    uint32_t jr_prev_primask = __get_PRIMASK(); \
+    __disable_irq(); \
+    __DMB()
 
 #define JR_CRIT_ENTER_NO_DECL() \
-	jr_prev_primask = __get_PRIMASK(); \
-	__disable_irq(); \
-	__DMB()
+    jr_prev_primask = __get_PRIMASK(); \
+    __disable_irq(); \
+    __DMB()
 
 #define JR_CRIT_LEAVE() \
-	__DMB(); \
-	__set_PRIMASK(jr_prev_primask)
+    __DMB(); \
+    __set_PRIMASK(jr_prev_primask)
 
 //
 // Status
 
 typedef int jr_status_t;
 
-#define JR_OK 				0
-#define JR_ERR 				-1
-#define JR_NO_MEM			-2
-#define JR_INVALID_STATE	-3
-#define JR_RANGE_ERROR		-4
+#define JR_OK               0
+#define JR_ERR              -1
+#define JR_NO_MEM           -2
+#define JR_INVALID_STATE    -3
+#define JR_RANGE_ERROR      -4
 
 //
 // Common types
 
 typedef union jr_userdata {
-	int32_t		i32;
-	uint32_t 	u32;
-	void*		p;
+    int32_t     i32;
+    uint32_t    u32;
+    void*       p;
 } jr_userdata_t;
 
 extern jr_userdata_t JR_NONE;
@@ -47,9 +47,9 @@ extern jr_userdata_t JR_NONE;
 
 typedef struct jr_ringbuf {
 
-	// private
-	uint8_t *data;
-	int size, count, rp, wp;
+    // private
+    uint8_t *data;
+    int size, count, rp, wp;
 } jr_ringbuf_t;
 
 void jr_ringbuf_init(jr_ringbuf_t *rb, uint8_t *buffer, int size);
@@ -92,7 +92,7 @@ int jr_ringbuf_read_upto(jr_ringbuf_t *rb, uint8_t *dst, int len);
 // Scheduler
 
 typedef struct {
-	int background_irq_priority;
+    int background_irq_priority;
 } jr_sched_init_t;
 
 typedef uint16_t jr_evt_size_t;
@@ -105,11 +105,11 @@ jr_status_t jr_sched_put(jr_sched_cb callback, void *data, jr_evt_size_t len);
 //
 // Timer
 
-#define JR_TIMER_ONE_SHOT		0x40000000
-#define JR_TIMER_FIXED_INTERVAL	0x80000000
-#define JR_TIMER_FIXED_RATE		0xC0000000
+#define JR_TIMER_ONE_SHOT       0x40000000
+#define JR_TIMER_FIXED_INTERVAL 0x80000000
+#define JR_TIMER_FIXED_RATE     0xC0000000
 
-#define JR_TIMER_MAX_INTERVAL	0x0FFFFFFF
+#define JR_TIMER_MAX_INTERVAL   0x0FFFFFFF
 
 typedef struct jr_timer jr_timer_t;
 
@@ -120,13 +120,13 @@ typedef struct jr_timer jr_timer_t;
 typedef int (*jr_timer_hnd)(jr_timer_t *timer);
 
 struct jr_timer {
-	jr_userdata_t	userdata;
+    jr_userdata_t   userdata;
 
-	// private
-	jr_timer_hnd	_handler;
-	uint32_t 		_deadline;
-	uint32_t		_flags;
-	jr_timer_t*		_next;
+    // private
+    jr_timer_hnd    _handler;
+    uint32_t        _deadline;
+    uint32_t        _flags;
+    jr_timer_t*     _next;
 };
 
 jr_status_t jr_timers_init();
