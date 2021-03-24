@@ -123,6 +123,10 @@ void jr_timer_init(jr_timer_t *t, uint32_t type, jr_timer_hnd handler, jr_userda
 }
 
 jr_status_t jr_timer_start(jr_timer_t *t, uint32_t initial_delay, uint32_t repeat_interval) {
+    if (repeat_interval > JR_TIMER_MAX_INTERVAL) {
+        return JR_RANGE_ERROR;
+    }
+
     JR_CRIT_ENTER();
 
     if (STATE(t) == STATE_ENQUEUED) {
