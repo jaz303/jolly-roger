@@ -30,6 +30,8 @@ typedef int jr_status_t;
 #define JR_NO_MEM           -2
 #define JR_INVALID_STATE    -3
 #define JR_RANGE_ERROR      -4
+#define JR_PARSE_ERROR      -5
+#define JR_INVALID_ARG      -6
 
 //
 // Common types
@@ -148,5 +150,14 @@ jr_status_t jr_timer_stop(jr_timer_t *t);
 // jr_status_t jr_set_timeout(jr_timer_cb cb, uint32_t delay, jr_userdata_t userdata);
 // jr_status_t jr_set_interval(jr_timer_cb cb, uint32_t initial_dealy, uint32_t interval, jr_userdata_t userdata);
 // jr_status_t jr_clear_timeout(jr_status_t instance);
+
+//
+// TLV
+
+typedef jr_status_t (*jr_tlv_cb)(uint32_t type, const uint8_t *data, uint32_t length);
+
+// Parse a TLV structure, calling the provided callback for each chunk.
+// If callback is not provide this function checks the syntax only.
+jr_status_t jr_tlv_parse(void *data, int length, int big_endian, int type_size, int length_size, jr_tlv_cb chunk_cb);
 
 #endif
