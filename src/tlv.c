@@ -44,7 +44,7 @@ loop:
             return JR_PARSE_ERROR;
         }
         
-        if (phase == 1 && chunk_cb) {
+        if (phase == 1) {
             jr_status_t ret = chunk_cb(chunk_type, chunk_length, &bytes[i]);
             if (ret < 0) {
                 return ret;
@@ -54,7 +54,7 @@ loop:
         i += chunk_length;
     }
 
-    if (phase == 0) {
+    if (phase == 0 && chunk_cb) {
         phase = 1;
         goto loop;
     }
