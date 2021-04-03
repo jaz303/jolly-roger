@@ -18,9 +18,6 @@ typedef struct {
     jr_evt_size_t   len;
 } __attribute__ ((aligned (4))) sched_event_t;
 
-#define SET_PENDSV()    (SCB->ICSR |= SCB_ICSR_PENDSVSET_Msk)
-#define CLEAR_PENDSV()  (SCB->ICSR &= ~(SCB_ICSR_PENDSVSET_Msk))
-
 #define INC(v)          (((v)+1)&(JR_MAX_PENDING_EVENTS-1))
 
 static sched_event_t    s_events[JR_MAX_PENDING_EVENTS];
@@ -30,13 +27,13 @@ static int              s_wp                        = 0;
 static int              s_running                   = 0;
 
 void jr_sched_init(jr_sched_init_t *cfg) {
-    NVIC_SetPriority(PendSV_IRQn, cfg->background_irq_priority);
+    JR_SCHED_SET_PRIORITY(cfg->background_irq_priority);
 }
 
 void jr_sched_start() {
     s_running = 1;
     if (s_event_count > 0) {
-        SET_PENDSV();
+        JR_SCHED_SET_PENDING();
     }
 }
 
@@ -64,7 +61,7 @@ jr_status_t jr_sched_put(jr_sched_cb callback, void *data, jr_evt_size_t len) {
     JR_CRIT_LEAVE();
 
     if (ret == JR_OK && s_running) {
-        SET_PENDSV();
+        JR_SCHED_SET_PENDING();
     }
     
     return ret;
@@ -97,7 +94,7 @@ void PendSV_Handler() {
     //
     // It is good practice to explicitly clear the PendSV interrupt:
     // https://embeddedgurus.com/state-space/2011/09/whats-the-state-of-your-cortex/
-    CLEAR_PENDSV();
+    JR_SCHED_CLEAR_PENDING();
     
     JR_CRIT_LEAVE();
 

@@ -148,7 +148,7 @@ jr_status_t jr_tlv_parse(const uint8_t *bytes, int length, int big_endian, int t
 #include "jr_config.h"
 
 //
-// Macros
+// Configurable macros
 
 #ifndef JR_CRIT_ENTER
 #define JR_CRIT_ENTER() \
@@ -168,6 +168,18 @@ jr_status_t jr_tlv_parse(const uint8_t *bytes, int length, int big_endian, int t
 #define JR_CRIT_LEAVE() \
     __DMB(); \
     __set_PRIMASK(jr_prev_primask)
+#endif
+
+#ifndef JR_SCHED_SET_PRIORITY
+#define JR_SCHED_SET_PRIORITY(p) NVIC_SetPriority(PendSV_IRQn, (p))
+#endif
+
+#ifndef JR_SCHED_SET_PENDING
+#define JR_SCHED_SET_PENDING(p) (SCB->ICSR |= SCB_ICSR_PENDSVSET_Msk)
+#endif
+
+#ifndef JR_SCHED_CLEAR_PENDING
+#define JR_SCHED_CLEAR_PENDING(p) (SCB->ICSR &= ~(SCB_ICSR_PENDSVSET_Msk))
 #endif
 
 #endif

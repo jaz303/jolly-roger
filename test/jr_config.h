@@ -1,20 +1,14 @@
 #ifndef JR_CONFIG_
 #define JR_CONFIG_
 
+#define JR_CRIT_ENTER()
+#define JR_CRIT_ENTER_NO_DECL()
+#define JR_CRIT_LEAVE()
+#define JR_SCHED_SET_PRIORITY(p)
+#define JR_SCHED_SET_PENDING()
+#define JR_SCHED_CLEAR_PENDING()
+
 #define JR_MAX_EVENT_SIZE 		16
 #define JR_MAX_PENDING_EVENTS	10
-
-#define NVIC_SetPriority(a, b)
-#define __DMB()
-#define __disable_irq()
-#define __set_PRIMASK(x)
-#define __get_PRIMASK() 1
-#define SCB_ICSR_PENDSVSET_Msk 1
-
-typedef struct SCB_Dummy {
-	uint32_t ICSR;
-} SCB_Dummy; 
-
-#define SCB ((SCB_Dummy*)0)
 
 #endif
