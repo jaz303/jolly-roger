@@ -47,7 +47,8 @@
 #include <stdlib.h>
 
 /* Main assertion method */
-#define ASSERT(msg, expression) if (!tt_assert(__FILE__, __LINE__, (msg), (#expression), (expression) ? 1 : 0)) return
+#define ASSERT_EXP(msg, expression) tt_assert(__FILE__, __LINE__, (msg), (#expression), (expression) ? 1 : 0)
+#define ASSERT(msg, expression) if (!ASSERT_EXP(msg, expression)) return
 
 /* Convenient assertion methods */
 /* TODO: Generate readable error messages for assert_equals or assert_str_equals */

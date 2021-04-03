@@ -20,7 +20,9 @@ $(OBJ_DIR):
 	mkdir -p obj
 
 clean:
-	rm -rf $(TEST_OBJ)
+	rm -rf $(TEST_BIN)
 	rm -rf $(OBJ_DIR)
 
 .PHONY: default clean
+
+.KEEP: $(JR_OBJ)

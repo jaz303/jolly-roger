@@ -42,16 +42,18 @@ typedef union jr_userdata {
     void*       p;
 } jr_userdata_t;
 
-extern jr_userdata_t JR_NONE;
+extern const jr_userdata_t JR_NONE;
 
 //
 // Memory utilities
 
-uint16_t jr_mem_read_uint16be(uint8_t *ptr);
-uint32_t jr_mem_read_uint32be(uint8_t *ptr);
+uint32_t jr_mem_read_uint(const uint8_t *ptr, int bytes, int big_endian);
 
-uint16_t jr_mem_read_uint16le(uint8_t *ptr);
-uint32_t jr_mem_read_uint32le(uint8_t *ptr);
+uint16_t jr_mem_read_uint16be(const uint8_t *ptr);
+uint32_t jr_mem_read_uint32be(const uint8_t *ptr);
+
+uint16_t jr_mem_read_uint16le(const uint8_t *ptr);
+uint32_t jr_mem_read_uint32le(const uint8_t *ptr);
 
 //
 // Ringbuffer (byte-oriented, not threadsafe)
@@ -154,10 +156,10 @@ jr_status_t jr_timer_stop(jr_timer_t *t);
 //
 // TLV
 
-typedef jr_status_t (*jr_tlv_cb)(uint32_t type, const uint8_t *data, uint32_t length);
+typedef jr_status_t (*jr_tlv_cb)(uint32_t type, const uint8_t *data, uint32_t length, jr_userdata_t userdata);
 
 // Parse a TLV structure, calling the provided callback for each chunk.
 // If callback is not provide this function checks the syntax only.
-jr_status_t jr_tlv_parse(void *data, int length, int big_endian, int type_size, int length_size, jr_tlv_cb chunk_cb);
+jr_status_t jr_tlv_parse(const uint8_t *bytes, int length, int big_endian, int type_size, int length_size, jr_tlv_cb chunk_cb, jr_userdata_t userdata);
 
 #endif
