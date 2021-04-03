@@ -1,5 +1,4 @@
 #include "jr.h"
-#include "jr_config.h"
 
 #include <stdint.h>
 #include <string.h>

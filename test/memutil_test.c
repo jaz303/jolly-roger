@@ -1,5 +1,5 @@
 #include "tinytest.h"
-#include "jr_config.h"
+#include "jr.h"
 
 static void test_mem_read_uint() {
 	uint8_t input1[] = {0x01};

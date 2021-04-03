@@ -17,6 +17,4 @@ typedef struct SCB_Dummy {
 
 #define SCB ((SCB_Dummy*)0)
 
-#include "jr.h"
-
 #endif

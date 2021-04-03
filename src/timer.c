@@ -1,8 +1,6 @@
-#include <jr.h>
+#include "jr.h"
 #include <stdlib.h>
 #include <string.h>
-
-#include "jr_config.h"
 
 #define TYPE_MASK           (0x3 << 30)
 #define STATE_MASK          (0x3 << 28)

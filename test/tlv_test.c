@@ -1,5 +1,5 @@
 #include "tinytest.h"
-#include "jr_config.h"
+#include "jr.h"
 
 //
 //

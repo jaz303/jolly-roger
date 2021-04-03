@@ -4,23 +4,6 @@
 #include <stdint.h>
 
 //
-// Macros
-
-#define JR_CRIT_ENTER() \
-    uint32_t jr_prev_primask = __get_PRIMASK(); \
-    __disable_irq(); \
-    __DMB()
-
-#define JR_CRIT_ENTER_NO_DECL() \
-    jr_prev_primask = __get_PRIMASK(); \
-    __disable_irq(); \
-    __DMB()
-
-#define JR_CRIT_LEAVE() \
-    __DMB(); \
-    __set_PRIMASK(jr_prev_primask)
-
-//
 // Status
 
 typedef int jr_status_t;
@@ -161,5 +144,30 @@ typedef jr_status_t (*jr_tlv_cb)(uint32_t type, const uint8_t *data, uint32_t le
 // Parse a TLV structure, calling the provided callback for each chunk.
 // If callback is not provide this function checks the syntax only.
 jr_status_t jr_tlv_parse(const uint8_t *bytes, int length, int big_endian, int type_size, int length_size, jr_tlv_cb chunk_cb, jr_userdata_t userdata);
+
+#include "jr_config.h"
+
+//
+// Macros
+
+#ifndef JR_CRIT_ENTER
+#define JR_CRIT_ENTER() \
+    uint32_t jr_prev_primask = __get_PRIMASK(); \
+    __disable_irq(); \
+    __DMB()
+#endif
+
+#ifndef JR_CRIT_ENTER_NO_DECL
+#define JR_CRIT_ENTER_NO_DECL() \
+    jr_prev_primask = __get_PRIMASK(); \
+    __disable_irq(); \
+    __DMB()
+#endif
+
+#ifndef JR_CRIT_LEAVE
+#define JR_CRIT_LEAVE() \
+    __DMB(); \
+    __set_PRIMASK(jr_prev_primask)
+#endif
 
 #endif

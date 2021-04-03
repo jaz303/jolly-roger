@@ -8,7 +8,7 @@ TEST_SRC := $(shell find *_test.c)
 TEST_BIN := $(TEST_SRC:.c=.test)
 
 %.test: %.c $(JR_OBJ)
-	gcc -o $@ -I../include $(JR_OBJ) $<
+	gcc -o $@ -I. -I../include $(JR_OBJ) $<
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
 	gcc -c -o $@ -I. -I../include $<	
