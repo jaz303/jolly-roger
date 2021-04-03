@@ -12,9 +12,9 @@ jr_status_t jr_tlv_parse(void *data, int length, int big_endian, int type_size, 
     const int length_shift = big_endian ? 0 : ((length_size - 1) * 8);
 
     int phase = 0;
+    int i = 0;
 
 loop:
-    int i = 0;
     while (i < length) {
         if ((i+header_size) > length) {
             return JR_PARSE_ERROR;
@@ -56,6 +56,7 @@ loop:
 
     if (phase == 0 && chunk_cb) {
         phase = 1;
+        i = 0;
         goto loop;
     }
 
